@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>D D O S N I G G A</title>
+  <style>
+@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400&display=swap');
+body {
+  margin: 0;
+  font-family: 'Pixelify Sans', monospace;
+  background: #000000;
+  color: #00ff00;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: auto; /* Ensure scrollbars are enabled if content overflows */
+  border: 2px solid #00ff00;
+}
+
+/* For Webkit browsers (Chrome, Edge, Safari) */
+::-webkit-scrollbar {
+  width: 8px; /* Adjust width */
+  height: 8px; /* Adjust height for horizontal scrollbars */
+}
+
+::-webkit-scrollbar-track {
+  background: transparent; /* Transparent track */
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0); /* Fully transparent thumb */
+  border-radius: 4px; /* Smooth corners */
+}
+
+/* For Firefox */
+body {
+  scrollbar-width: none; /* Completely hide the scrollbar in Firefox */
+  scrollbar-color: transparent transparent; /* Transparent thumb and track if scrollbars are needed */
+}
+
+::selection {
+  background: transparent;
+}
+
+
+
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+/* Banner Styles */
+.banner {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: #000000;
+  color: #00ff00;
+  font-size: 1.2rem;
+  text-align: center;
+  padding: 10px 0;
+  z-index: 3;
+}
+
+/* Header and Quote */
+.header-image {
+  width: 31%;
+  margin: 80px 0 10px 0;
+}
+
+.quote {
+  font-size: 1rem;
+  font-style: italic;
+  text-align: center;
+  margin: 10px 0 20px 0;
+}
+
+/* Dashboard */
+.dashboard {
+  display: flex;
+  justify-content: space-between; /* Adjust spacing */
+  align-items: flex-start;
+  width: 93%; /* Adjust width */
+  padding: 20px 0;
+}
+
+.main-content {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.server-stats-container {
+  display: flex;
+  justify-content: space-between;
+  background: #001a00;
+  border: 2px solid #00ff00;
+  padding: 29px;
+  margin: 18px 0;
+  width: 47%;
+}
+
+.server-stats, .crypto-stats {
+  width: 40%;
+  font-size: 0.9rem;
+}
+
+.crypto-stats ul, .server-stats ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.stats-image-container {
+  width: 15%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.stats-image-container img {
+  width: 382px;
+  border: 2px solid #00ff00;
+  height: 264px;
+  margin-left: 424px;
+}
+
+/* Logs and Terminal */
+.logs-and-terminal {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin: 20px 0;
+}
+
+.logs {
+  background: #000a00;
+  border: 1px solid #00ff00;
+  padding: 7px;
+  height: 607px;
+  overflow-y: auto;
+  font-size: 0.9rem;
+  width: 39%;
+}
+
+.terminal-container {
+  background: #000000;
+  border: 1px solid #00ff00;
+  padding: 10px;
+  width: 84%;
+  color: #00ff00;
+  overflow: hidden;
+}
+
+.terminal-header {
+  white-space: pre;
+  font-family: monospace;
+  font-size: 0.8rem;
+  margin-bottom: 10px;
+}
+
+.terminal-output {
+  height: 150px;
+  overflow-y: auto;
+  margin-bottom: 10px;
+}
+
+.terminal-input {
+  width: 100%;
+  border: none;
+  background: #000000;
+  color: #00ff00;
+  font-family: monospace;
+  font-size: 0.9rem;
+  padding: 10px;
+  outline: none;
+}
+
+/* Crypto Purchase Section */
+.crypto-purchase-section {
+  width: 100%;
+  background: #001a00;
+  border: 2px solid #00ff00;
+  padding: 15px;
+  margin: 20px 0;
+  text-align: center;
+}
+
+.crypto-purchase-description {
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+}
+
+.crypto-purchase-image {
+  width: 540px;
+  border: 2px solid #00ff00;
+  height: 155px;
+  margin-bottom: 19px;
+}
+
+.crypto-purchase-button {
+  background: #000a00;
+  color: #00ff00;
+  font-family: 'Pixelify Sans', monospace;
+  border: 1px solid #00ff00;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.crypto-purchase-button:hover {
+  background: #002a00;
+}
+
+/* Left and Right Images */
+.left-images, .right-images {
+  display: initial;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 11%; /* Adjust width as needed */
+  gap: 351px; /* Space between images */
+}
+
+.left-images {
+  margin-right: 6%;
+  margin-left: -1px;
+}
+
+.right-images {
+  margin-left: 1%;
+  margin-right: 131px;
+}
+
+.left-images img, .right-images img {
+  width: 140%;
+  border: 2px solid #00ff00;
+}
+
+.left-images p, .right-images p {
+  margin-top: 3px;
+  font-size: 0.8rem;
+  font-style: italic;
+  text-align: center;
+  width: 277px;
+}
+
+/* Sponsors Section */
+.sponsors-section {
+  width: 100%;
+  background: #001a00;
+  padding: 20px 0;
+  border: 2px solid #00ff00;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+}
+
+.sponsors-images {
+  display: flex;
+  gap: 20px;
+  animation: scroll 20s linear infinite;
+}
+
+.sponsors-images img {
+  width: 150px;
+  border: 2px solid #00ff00;
+}
+
+@keyframes scroll {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+/* Line Graph Section */
+.line-graph-section {
+  width: 100%;
+  padding: 20px;
+  border: 2px solid #00ff00;
+  margin: 20px 0;
+  background: #001a00;
+}
+
+.line-graph-section h2 {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+/* About Section */
+.about-section {
+  width: 100%;
+  padding: 20px;
+  background: #001a00;
+  border: 2px solid #00ff00;
+  text-align: center;
+  margin: 20px 0;
+}
+
+/* Mobile View */
+.mobile-view {
+  display: none; /* Hidden by default */
+}
+
+@media (max-width: 768px) {
+  /* Hide all non-text content on mobile */
+  .banner, 
+  .dashboard, 
+  .header-image, 
+  .quote, 
+  .logs, 
+  .terminal-container, 
+  .left-images, 
+  .right-images, 
+  .crypto-purchase-section {
+    display: none; /* Hide these elements */
+  }
+
+  .mobile-view {
+    display: flex; /* Show on mobile */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5rem;
+    text-align: center;
+    color: #00ff00;
+    z-index: 2;
+  }
+}
+  </style>
+</head>
+
+<body>
+  <canvas id="matrixCanvas"></canvas>
+  <div class="banner" id="banner"></div>
+  <img src="static/header.gif" alt="Header Image" class="header-image">
+  <p class="quote">bout 2 run a driveby on these foos....</p>
+  <div class="dashboard">
+    <div class="left-images">
+      <div>
+        <img src="static/9.webp" alt="Left Image 1">
+        <p class="quote">shi good asf f inna fck up some nigga innernit</p>
+      </div>
+      <div>
+        <img src="static/10.webp" alt="Left Image 2">
+        <p class="quote">it ight tho</p>
+      </div>
+    </div>
+    <div class="main-content">
+      <div class="about-section">
+        <h2>da hell is ddosnigga ?</h2>
+        <p>we got hardcore ass servers bro we got tcp hdp udp upnet ddos nigga! we take down internet n yo mama wifi all day long. we ainnt skid nigga we aint no bitch we code this nigga knows python yfm i be rockin ddosnigga fo only 1 MILLION niggacoin bro hmu pay me wit fartspam coin niggacoin you nameit nigga i gotchu. i aint exsit scam fuck dat shit im real. trust me nigga i gotchu.... im a nigga from the hood ik how hard dis shit is. i finna give you a discoun too! HM TF UP! I gotchu bro... </p>
+      </div>
+      <div class="stats-image-container">
+        <img src="static/nigga.gif" alt="Stats Image">
+      </div>
+      <div class="server-stats-container">
+        <div class="server-stats">
+          <h2>server shi</h2>
+          <ul>
+            <li>CPU Usage: <span id="cpuUsage">35%</span></li>
+            <li>Memory Usage: <span id="memoryUsage">65%</span></li>
+            <li>Disk Space: <span id="diskSpace">120GB/256GB</span></li>
+            <li>Active Connections: <span id="connections">42</span></li>
+            <li>Network Speed: <span id="networkSpeed">150Mbps</span></li>
+          </ul>
+        </div>
+        <div class="crypto-stats">
+          <h2>coins</h2>
+          <ul>
+            <li>$NIGGACOIN <span id="btcPrice">$50,000</span></li>
+            <li>$FARTCOIN <span id="ethPrice">$3,500</span></li>
+            <li>$SHIT&PEE 500 <span id="dogePrice">$0.25</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="logs-and-terminal">
+        <div class="terminal-container">
+          <div class="terminal-header">
+██████╗ ██████╗  ██████╗ ███████╗███╗   ██╗██╗ ██████╗  ██████╗  █████╗
+██╔══██╗██╔══██╗██╔═══██╗██╔════╝████╗  ██║██║██╔════╝ ██╔════╝ ██╔══██╗
+██║  ██║██║  ██║██║   ██║███████╗██╔██╗ ██║██║██║  ███╗██║  ███╗███████║
+██║  ██║██║  ██║██║   ██║╚════██║██║╚██╗██║██║██║   ██║██║   ██║██╔══██║
+██████╔╝██████╔╝╚██████╔╝███████║██║ ╚████║██║╚██████╔╝╚██████╔╝██║  ██║
+╚═════╝ ╚═════╝  ╚═════╝ ╚══════╝╚═╝  ╚═══╝╚═╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═╝
+          </div>
+          <div class="terminal-help" style="font-size: 11px;line-height: 0.4;">
+            <p>[!] shi is like !attack then yo method then yo time. max is 120 secconds my nigga</p>
+            <p>HTTPNIGGA - HTTPS FLOOD TO BE USED ON WEBSITES/LAYER7 TARGETS
+              <p>BROWSERNIGGA - BROWSER FLOOD USED TO BYPASS CAPTCHAS
+                <p>OVHTCP - TCP FLOOD DESIGNED TO BYPASS OVH ANTIDDOS
+                  <p>OVHUDP - UDP FLOOD DESIGNED TO BYPASS OVH ANTIDDOS
+                    <p>UDPNIGGA - UDP FLOOD DESIGNED TO KILL UDP TARGETS
+                      <p>AMPNIGGA - UDP AMPLIFICATION FLOOD
+                        <p>GAMENIGGA - UDP/TCP FLOOD DESIGNED TO KILL GAME SERVERS
+                          <p>DISCORD - UDP FLOOD DESIGNED TO KILL DISCORD VCS
+                            <p>TCPNIGGA - TCPFLOOD DESIGNED TO KILL TCP TARGETS
+                              <p>SOCKETNIGGA - TCP SOCKET FLOOD TO BYPASS DDOS PROT ON TCP TARGETS
+                                <p>FIVEMNIGGA - FIVEM FLOOD
+                                  <p>CODNIGGA - COD/WARZONE FLOOD
+                                    <p>R6NIGGA - R6 FLOOD
+                                      <p>FNDROP - VERY POWERFUL FORTNITE FLOOD
+                                        <p>SSHNIGGA - EMULATES SSH CONNECTIONS
+          </div>
+          <div class="terminal-output" id="terminalResponses"></div>
+          <input type="text" class="terminal-input" id="terminalInput" placeholder="Type a command...">
+        </div>
+        <div class="logs" id="logs">
+          <p>System logs will appear here...</p>
+        </div>
+      </div>
+      <div class="sponsors-section">
+        <div class="sponsors-images">
+          <img src="static/1.png" alt="Sponsor 1">
+          <img src="static/2.png" alt="Sponsor 2">
+          <img src="static/3.png" alt="Sponsor 3">
+          <img src="static/4.png" alt="Sponsor 4">
+          <img src="static/5.png" alt="Sponsor 5">
+          <img src="static/6.png" alt="Sponsor 6">
+          <img src="static/7.png" alt="Sponsor 7">
+        </div>
+      </div>
+      <div class="crypto-purchase-section">
+        <h2>buy ddosnigga today!!!!!</h2>
+        <p class="crypto-purchase-description">
+        </p>
+          <img src="static/purchase.gif" alt="Crypto Image" class="crypto-purchase-image">
+        <div class="purchase-controls">
+          <button id="decreaseAmount">-</button>
+          <span id="purchaseAmount">1</span>
+          <button id="increaseAmount">+</button>
+        </div>
+        <p>Total Price: <span id="totalPrice">1,000,000</span></p>
+        <button class="crypto-purchase-button">buy w niggacoin </button>
+        <button class="crypto-purchase-button">by w fartcoin</button>
+        <button class="crypto-purchase-button">buy with paypel</button>
+      </div>
+    </div>
+    <div class="right-images">
+      <div>
+        <img src="static/8.webp" alt="Right Image 1">
+        <p class="quote">أنا أحب ددوسنيغا!</p>
+      </div>
+      <div>
+        <img src="static/11.webp" alt="Right Image 2">
+        <p class="quote">shi best million i eva spent bro</p>
+      </div>
+    </div>
+    <div class="mobile-view">ddosnigga not on phone</div>
+  </div>
+  <script>
+// Matrix Background Animation
+const canvas = document.getElementById("matrixCanvas");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const characters = "NIGGA";
+const charArray = characters.split("");
+const fontSize = 14;
+const columns = canvas.width / fontSize;
+const drops = Array.from({ length: columns }).fill(0);
+
+function drawMatrix() {
+  ctx.fillStyle = "rgba(0, 0, 0, 0.3)";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle = "#00ff00";
+  ctx.font = `${fontSize}px monospace`;
+
+  for (let i = 0; i < drops.length; i++) {
+    const char = charArray[Math.floor(Math.random() * charArray.length)];
+    ctx.fillText(char, i * fontSize, drops[i] * fontSize);
+
+    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+      drops[i] = 0;
+    }
+    drops[i]++;
+  }
+}
+
+setInterval(drawMatrix, 100);
+
+// Dynamic Banner Text
+const banner = document.getElementById("banner");
+const messages = [
+  "ran a drive by on some nigga at 127.0.0.1",
+  "killed sum shi at https://fart.gov",
+  "fcked up some ass server in 80.1.1.1 port 80",
+  "put a bullet on https://hawktuahpodcast.com",
+  "port 443 extracted... got sum logs at https://youtube.com",
+  "took down x.com at port 80",
+];
+let currentMessage = 0;
+
+function updateBanner() {
+  banner.textContent = messages[currentMessage];
+  currentMessage = (currentMessage + 1) % messages.length;
+}
+
+setInterval(updateBanner, 3000);
+updateBanner();
+
+// Dynamic Stats (Server and Crypto)
+const cpuUsage = document.getElementById("cpuUsage");
+const memoryUsage = document.getElementById("memoryUsage");
+const diskSpace = document.getElementById("diskSpace");
+const connections = document.getElementById("connections");
+const networkSpeed = document.getElementById("networkSpeed");
+const btcPrice = document.getElementById("btcPrice");
+const ethPrice = document.getElementById("ethPrice");
+const dogePrice = document.getElementById("dogePrice");
+
+setInterval(() => {
+  cpuUsage.textContent = `${Math.floor(Math.random() * 101)}%`;
+  memoryUsage.textContent = `${Math.floor(Math.random() * 101)}%`;
+  diskSpace.textContent = `${Math.floor(Math.random() * 500)}GB/500GB`;
+  connections.textContent = `${Math.floor(Math.random() * 101)}`;
+  networkSpeed.textContent = `${Math.floor(Math.random() * 1000)}Mbps`;
+
+  btcPrice.textContent = `$${(50000 + Math.random() * 1000).toFixed(2)}`;
+  ethPrice.textContent = `$${(3500 + Math.random() * 100).toFixed(2)}`;
+  dogePrice.textContent = `$${(0.25 + Math.random() * 0.05).toFixed(2)}`;
+}, 2000);
+
+// System Logs
+const logs = document.getElementById("logs");
+const logMessages = [
+  "[ATTACK SENT] some nigga in chicago jus took down https://fart.com:80",
+  "[HACKED] jus found a vuln on https://incel.is and got hella logs...  ",
+  "[GAME NIGGA] nigga playing GTA jus took down the surver",
+  "[ATTACK SENT] some nigga in detroit jus took down https://poop.com:80",
+  "[UDP NIGGA] gon run a drivebay on this foo... https://cracked.io"
+];
+
+setInterval(() => {
+  const newLog = logMessages[Math.floor(Math.random() * logMessages.length)];
+  const logEntry = document.createElement("p");
+  logEntry.textContent = newLog;
+  logs.appendChild(logEntry);
+  if (logs.childNodes.length > 10) {
+    logs.removeChild(logs.firstChild);
+  }
+  logs.scrollTop = logs.scrollHeight;
+}, 2000);
+
+// Terminal Functionality
+const terminalInput = document.getElementById("terminalInput");
+const terminalResponses = document.getElementById("terminalResponses");
+
+terminalInput.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    const userCommand = terminalInput.value;
+    const response = document.createElement("p");
+    response.textContent = `> ${userCommand}`;
+    terminalResponses.appendChild(response);
+
+    const botResponse = document.createElement("p");
+    botResponse.textContent = `Response: ${getTerminalResponse(userCommand)}`;
+    terminalResponses.appendChild(botResponse);
+
+    terminalInput.value = "";
+    terminalResponses.scrollTop = terminalResponses.scrollHeight;
+  }
+});
+
+function getTerminalResponse(command) {
+  const responses = {
+    help: "Available commands: help, stats, clear",
+    stats: "CPU: 35%, Memory: 65%, Disk: 120GB/256GB",
+    clear: () => {
+      terminalResponses.innerHTML = "";
+      return "Terminal cleared.";
+    },
+    default: "Unknown command."
+  };
+  return responses[command] || responses.default;
+}
+
+// Purchase Section
+const purchaseAmount = document.getElementById("purchaseAmount");
+const totalPrice = document.getElementById("totalPrice");
+const increaseAmount = document.getElementById("increaseAmount");
+const decreaseAmount = document.getElementById("decreaseAmount");
+const pricePerUnit = 1000000;
+
+increaseAmount.addEventListener("click", () => {
+  const amount = parseInt(purchaseAmount.textContent, 10) + 1;
+  purchaseAmount.textContent = amount;
+  totalPrice.textContent = `$${(amount * pricePerUnit).toLocaleString()}`;
+});
+
+decreaseAmount.addEventListener("click", () => {
+  let amount = parseInt(purchaseAmount.textContent, 10);
+  if (amount > 1) {
+    amount -= 1;
+    purchaseAmount.textContent = amount;
+    totalPrice.textContent = `$${(amount * pricePerUnit).toLocaleString()}`;
+  }
+});
+
+  </script>
+</body>
+
+
+</html>
